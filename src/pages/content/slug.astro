@@ -1,0 +1,39 @@
+---
+import Layout from '~/layouts/main.astro';
+
+// Component Imports
+import Link from '~/components/Link.astro';
+import TailwindTypographyProse from '~/components/TailwindTypographyProse.astro';
+
+import { title, samplePageTitle } from '~/settings';
+---
+
+<Layout
+  content={{
+    title
+  }}
+>
+  <div class="flex min-h-screen flex-col items-center gap-4 p-10">
+    <h1 class="text-3xl">{title}</h1>
+
+    <div class="w-full border-b border-gray-300"></div>
+
+    <div class="flex gap-2">
+      <Link href="/">Go home</Link>
+
+      <span>/</span>
+
+      <Link href="/content">{samplePageTitle}</Link>
+
+      <span>/</span>
+
+      <span class="font-semibold">slug</span>
+    </div>
+
+    <div class="w-full border-b border-gray-300"></div>
+
+    <TailwindTypographyProse>
+      <div>page content</div>
+    </TailwindTypographyProse>
+  </div>
+</Layout>
