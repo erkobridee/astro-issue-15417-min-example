@@ -1,5 +1,5 @@
 {
-  "name": "astro-ts-tw-hello",
+  "name": "astro-issue-15417-min-example",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
