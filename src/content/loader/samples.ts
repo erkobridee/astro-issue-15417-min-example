@@ -1,5 +1,9 @@
 import type { Loader, LoaderContext } from 'astro/loaders';
 
+import { samples } from '~/content/mock/samples';
+
+//----------------------------------------------------------------------------//
+
 export const samplesLoader = (): Loader => {
   const loadData = async ({
     store,
@@ -7,8 +11,6 @@ export const samplesLoader = (): Loader => {
     parseData,
     renderMarkdown
   }: LoaderContext) => {
-    const { samples } = await import('~/content/mock/samples');
-
     for (const sample of samples) {
       const { slug: id, content } = sample;
 

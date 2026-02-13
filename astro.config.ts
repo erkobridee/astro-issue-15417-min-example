@@ -23,6 +23,10 @@ const isGitHubPagesPreview = !!process.env.GITHUB_PAGES_PREVIEW;
 //----------------------------------------------------------------------------//
 
 const baseConfig: AstroUserConfig = {
+  image: {
+    domains: ['images.unsplash.com', 'images.pexels.com']
+  },
+
   markdown: {
     shikiConfig: {
       theme: 'github-light'

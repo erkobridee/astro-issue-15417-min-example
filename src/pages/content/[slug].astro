@@ -1,6 +1,7 @@
 ---
 import type { TCollectionEntry } from '~/content/utils/samples';
 
+import { Image } from 'astro:assets';
 import { render } from 'astro:content';
 
 import Layout from '~/layouts/main.astro';
@@ -8,6 +9,7 @@ import Layout from '~/layouts/main.astro';
 // Component Imports
 import Link from '~/components/Link.astro';
 import TailwindTypographyProse from '~/components/TailwindTypographyProse.astro';
+import RenderTheCode from '~/components/RenderTheCode.astro';
 
 import { getEntries } from '~/content/utils/samples';
 
@@ -36,7 +38,7 @@ const { entry } = Astro.props;
 
 const { data } = entry;
 
-const { title: pageTitle } = data;
+const { title: pageTitle, heroImage, heroImageAltText } = data;
 
 const { Content } = await render(entry);
 ---
@@ -65,7 +67,34 @@ const { Content } = await render(entry);
 
     <div class="w-full border-b border-gray-300"></div>
 
-    <TailwindTypographyProse>
+    <h2 class="text-xl">Content Entry</h2>
+
+    <RenderTheCode code={JSON.stringify(entry, null, 2)} />
+
+    <div class="w-full border-b border-gray-300"></div>
+
+    {
+      heroImage && (
+        <Fragment>
+          <h2 class="text-xl">Hero Image</h2>
+
+          <div class="w-full">
+            <Image
+              src={heroImage}
+              alt={heroImageAltText}
+              inferSize
+              class="h-48 w-full object-cover"
+            />
+          </div>
+
+          <div class="w-full border-b border-gray-300" />
+        </Fragment>
+      )
+    }
+
+    <h2 class="text-xl">Content</h2>
+
+    <TailwindTypographyProse class="w-full">
       <Content />
     </TailwindTypographyProse>
   </div>

@@ -8,6 +8,7 @@ const schema = z.object({
   slug: z.string(),
   title: z.string(),
   heroImage: z.string().optional(),
+  heroImageAltText: z.string().optional(),
   content: z.string()
 });
 
