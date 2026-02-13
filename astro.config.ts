@@ -1,3 +1,5 @@
+import type { AstroUserConfig } from 'astro';
+
 // https://docs.astro.build/en/reference/configuration-reference/
 import { defineConfig } from 'astro/config';
 
@@ -5,6 +7,8 @@ import mdx from '@astrojs/mdx';
 
 // https://tailwindcss.com/docs/installation/framework-guides/astro
 import tailwindcss from '@tailwindcss/vite';
+
+//----------------------------------------------------------------------------//
 
 // https://github.com/eslint/eslint/discussions/15305
 import { readFileSync } from 'fs';
@@ -16,11 +20,31 @@ const { name, github_pages } = packageJSON;
 const isGitHubPagesBuild = !!process.env.GITHUB_PAGES;
 const isGitHubPagesPreview = !!process.env.GITHUB_PAGES_PREVIEW;
 
-/** @type {import('astro').AstroUserConfig} */
-const baseConfig = {
+//----------------------------------------------------------------------------//
+
+const baseConfig: AstroUserConfig = {
+  markdown: {
+    shikiConfig: {
+      theme: 'github-light'
+    }
+  },
+
   integrations: [mdx()],
+
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss()],
+
+    // https://docs.astro.build/en/recipes/customizing-output-filenames/
+    build: {
+      rollupOptions: {
+        output: {
+          // path names relative to `outDir`
+          entryFileNames: '_astro/js/[name]-[hash].js',
+          chunkFileNames: '_astro/js/chunks/[name]-[hash].js',
+          assetFileNames: '_astro/static/[name]-[hash][extname]'
+        }
+      }
+    }
   }
 };
 
