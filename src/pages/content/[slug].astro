@@ -1,11 +1,44 @@
 ---
+import type { TCollectionEntry } from '~/content/utils/samples';
+
+import { render } from 'astro:content';
+
 import Layout from '~/layouts/main.astro';
 
 // Component Imports
 import Link from '~/components/Link.astro';
 import TailwindTypographyProse from '~/components/TailwindTypographyProse.astro';
 
+import { getEntries } from '~/content/utils/samples';
+
 import { title, samplePageTitle } from '~/settings';
+
+//----------------------------------------------------------------------------//
+
+export async function getStaticPaths() {
+  const entries = await getEntries();
+
+  return entries.map((entry) => {
+    const slug = entry.data.slug;
+
+    return {
+      params: { slug },
+      props: { entry }
+    };
+  });
+}
+
+interface Props {
+  entry: TCollectionEntry;
+}
+
+const { entry } = Astro.props;
+
+const { data } = entry;
+
+const { title: pageTitle } = data;
+
+const { Content } = await render(entry);
 ---
 
 <Layout
@@ -27,13 +60,13 @@ import { title, samplePageTitle } from '~/settings';
 
       <span>/</span>
 
-      <span class="font-semibold">slug</span>
+      <span class="font-semibold">{pageTitle}</span>
     </div>
 
     <div class="w-full border-b border-gray-300"></div>
 
     <TailwindTypographyProse>
-      <div>page content</div>
+      <Content />
     </TailwindTypographyProse>
   </div>
 </Layout>
