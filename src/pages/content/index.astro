@@ -4,17 +4,27 @@ import Layout from '~/layouts/main.astro';
 // Component Imports
 import Link from '~/components/Link.astro';
 
+import { getEntries } from '~/content/utils/samples';
+
 import { title, samplePageTitle } from '~/settings';
+
+//----------------------------------------------------------------------------//
 
 interface ILink {
   label: string;
   href: string;
 }
 
-const links = ['slug', 'page_1', 'page_2'].map((page) => ({
-  label: page,
-  href: `/content/${page}`
-})) as ILink[];
+const samples = await getEntries();
+
+const links = samples.map(({ data }) => {
+  const { title: label, slug } = data;
+
+  return {
+    label,
+    href: `/content/${slug}`
+  } as ILink;
+});
 ---
 
 <Layout
