@@ -2,37 +2,29 @@
 import Layout from '~/layouts/main.astro';
 
 // Component Imports
-import ConfettiButton from '~/components/ConfettiButton.astro';
 import Link from '~/components/Link.astro';
 
-// Full Astro Component Syntax:
-// https://docs.astro.build/basics/astro-components/
+import { title, samplePageTitle } from '~/settings';
 ---
 
 <Layout
   content={{
-    title: 'Astro + TS + TailwindCSS'
+    title
   }}
 >
-  <div class="grid h-screen place-items-center content-center space-y-4">
-    <ConfettiButton>Tailwind Button in Astro!</ConfettiButton>
+  <div class="flex min-h-screen flex-col items-center gap-4 p-10">
+    <h1 class="text-3xl">{title}</h1>
 
-    <div class="w-full border-b border-gray-300"></div>
+    <div class="mb-6 w-full border-b border-gray-300"></div>
 
-    <div class="flex flex-col items-center space-y-4">
-      <div class="font-bold">Available Pages:</div>
-      <div class="flex flex-col gap-2 divide-gray-300 md:flex-row md:divide-x">
-        <Link class="pr-2" href="/markdown-page"
-          >Markdown is also supported...</Link
-        >
-        <Link class="pr-2" href="/search?q=Hello World"
-          >Search 'Hello World'</Link
-        >
-      </div>
-    </div>
+    <div class="font-bold">Available Pages:</div>
 
-    <div class="w-full border-b border-gray-300"></div>
+    <Link class="pr-2" href="/content">{samplePageTitle}</Link>
 
-    <Link href="https://github.com/erkobridee">GitHub - Erko Bridee</Link>
+    <div class="mt-6 w-full border-b border-gray-300"></div>
+
+    <Link href="https://github.com/erkobridee/astro-issue-15417-min-example"
+      >GitHub - Erko Bridee / astro-issue-15417-min-example</Link
+    >
   </div>
 </Layout>
