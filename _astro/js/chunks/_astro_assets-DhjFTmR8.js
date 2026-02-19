@@ -1,7 +1,7 @@
 import { joinPaths, isRemotePath } from '@astrojs/internal-helpers/path';
-import { A as AstroError, E as ExpectedImage, L as LocalImageUsedWrongly, M as MissingImageDimension, q as UnsupportedImageFormat, I as IncompatibleDescriptorOptions, t as UnsupportedImageConversion, v as toStyleString, w as NoImageMetadata, x as FailedToFetchRemoteImageDimensions, y as ExpectedImageOptions, z as ExpectedNotESMImage, B as InvalidImageService, b as createAstro, c as createComponent, C as ImageMissingAlt, m as maybeRenderHead, d as addAttribute, s as spreadAttributes, a as renderTemplate, D as ExperimentalFontsNotEnabled, G as FontFamilyNotFound, u as unescapeHTML } from './astro/server-C1fvILgS.js';
-import { D as DEFAULT_OUTPUT_FORMAT, V as VALID_SUPPORTED_FORMATS, a as DEFAULT_HASH_PROPS } from './samples-Cv_01NHU.js';
 import { isRemoteAllowed } from '@astrojs/internal-helpers/remote';
+import { A as AstroError, E as ExpectedImage, L as LocalImageUsedWrongly, M as MissingImageDimension, q as UnsupportedImageFormat, I as IncompatibleDescriptorOptions, t as UnsupportedImageConversion, v as toStyleString, w as NoImageMetadata, x as FailedToFetchRemoteImageDimensions, y as RemoteImageNotAllowed, z as ExpectedImageOptions, B as ExpectedNotESMImage, C as InvalidImageService, b as createAstro, c as createComponent, D as ImageMissingAlt, m as maybeRenderHead, d as addAttribute, s as spreadAttributes, a as renderTemplate, G as ExperimentalFontsNotEnabled, H as FontFamilyNotFound, u as unescapeHTML } from './astro/server-BfyMHmXP.js';
+import { D as DEFAULT_OUTPUT_FORMAT, V as VALID_SUPPORTED_FORMATS, a as DEFAULT_HASH_PROPS } from './samples-CdJw1Ht8.js';
 import * as mime from 'mrmime';
 import 'clsx';
 import 'piccolore';
@@ -1361,8 +1361,39 @@ async function imageMetadata(data, src) {
   };
 }
 
-async function inferRemoteSize(url) {
-  const response = await fetch(url);
+async function inferRemoteSize(url, imageConfig) {
+  if (!URL.canParse(url)) {
+    throw new AstroError({
+      ...FailedToFetchRemoteImageDimensions,
+      message: FailedToFetchRemoteImageDimensions.message(url)
+    });
+  }
+  const allowlistConfig = imageConfig ? {
+    domains: imageConfig.domains ?? [],
+    remotePatterns: imageConfig.remotePatterns ?? []
+  } : void 0;
+  if (!allowlistConfig) {
+    const parsedUrl = new URL(url);
+    if (!["http:", "https:"].includes(parsedUrl.protocol)) {
+      throw new AstroError({
+        ...FailedToFetchRemoteImageDimensions,
+        message: FailedToFetchRemoteImageDimensions.message(url)
+      });
+    }
+  }
+  if (allowlistConfig && !isRemoteAllowed(url, allowlistConfig)) {
+    throw new AstroError({
+      ...RemoteImageNotAllowed,
+      message: RemoteImageNotAllowed.message(url)
+    });
+  }
+  const response = await fetch(url, { redirect: "manual" });
+  if (response.status >= 300 && response.status < 400) {
+    throw new AstroError({
+      ...FailedToFetchRemoteImageDimensions,
+      message: FailedToFetchRemoteImageDimensions.message(url)
+    });
+  }
   if (!response.body || !response.ok) {
     throw new AstroError({
       ...FailedToFetchRemoteImageDimensions,
@@ -1410,7 +1441,7 @@ async function getConfiguredImageService() {
   if (!globalThis?.astroAsset?.imageService) {
     const { default: service } = await import(
       // @ts-expect-error
-      './sharp-2HEgTfoP.js'
+      './sharp-C2dRg3MC.js'
     ).catch((e) => {
       const error = new AstroError(InvalidImageService);
       error.cause = e;
@@ -1449,13 +1480,21 @@ async function getImage$1(options, imageConfig) {
   };
   let originalWidth;
   let originalHeight;
-  if (options.inferSize && isRemoteImage(resolvedOptions.src) && isRemotePath(resolvedOptions.src)) {
-    const result = await inferRemoteSize(resolvedOptions.src);
-    resolvedOptions.width ??= result.width;
-    resolvedOptions.height ??= result.height;
-    originalWidth = result.width;
-    originalHeight = result.height;
+  if (options.inferSize) {
     delete resolvedOptions.inferSize;
+    if (isRemoteImage(resolvedOptions.src) && isRemotePath(resolvedOptions.src)) {
+      if (!isRemoteAllowed(resolvedOptions.src, imageConfig)) {
+        throw new AstroError({
+          ...RemoteImageNotAllowed,
+          message: RemoteImageNotAllowed.message(resolvedOptions.src)
+        });
+      }
+      const result = await inferRemoteSize(resolvedOptions.src, imageConfig);
+      resolvedOptions.width ??= result.width;
+      resolvedOptions.height ??= result.height;
+      originalWidth = result.width;
+      originalHeight = result.height;
+    }
   }
   const originalFilePath = isESMImportedImage(resolvedOptions.src) ? resolvedOptions.src.fsPath : void 0;
   const clonedSrc = isESMImportedImage(resolvedOptions.src) ? (
@@ -1739,7 +1778,6 @@ const _astro_assets = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.definePrope
   getConfiguredImageService,
   getImage,
   imageConfig,
-  inferRemoteSize,
   isLocalService
 }, Symbol.toStringTag, { value: 'Module' }));
 

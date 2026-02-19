@@ -148,6 +148,12 @@ const FailedToFetchRemoteImageDimensions = {
   message: (imageURL) => `Failed to get the dimensions for ${imageURL}.`,
   hint: "Verify your remote image URL is accurate, and that you are not using `inferSize` with a file located in your `public/` folder."
 };
+const RemoteImageNotAllowed = {
+  name: "RemoteImageNotAllowed",
+  title: "Remote image is not allowed",
+  message: (imageURL) => `Remote image ${imageURL} is not allowed by your image configuration.`,
+  hint: "Update `image.domains` or `image.remotePatterns`, or remove `inferSize` for this image."
+};
 const UnsupportedImageFormat = {
   name: "UnsupportedImageFormat",
   title: "Unsupported image format",
@@ -272,7 +278,7 @@ function createComponent(arg1, moduleId, propagation) {
   }
 }
 
-const ASTRO_VERSION = "5.17.2";
+const ASTRO_VERSION = "5.17.3";
 const NOOP_MIDDLEWARE_HEADER = "X-Astro-Noop";
 
 function createAstroGlobFn() {
@@ -2362,4 +2368,4 @@ function createVNode(type, props = {}, key) {
   return vnode;
 }
 
-export { AstroError as A, InvalidImageService as B, ImageMissingAlt as C, ExperimentalFontsNotEnabled as D, ExpectedImage as E, Fragment as F, FontFamilyNotFound as G, MissingSharp as H, IncompatibleDescriptorOptions as I, LocalImageUsedWrongly as L, MissingImageDimension as M, NOOP_MIDDLEWARE_HEADER as N, RenderUndefinedEntryError as R, UnknownContentCollectionError as U, renderTemplate as a, createAstro as b, createComponent as c, addAttribute as d, renderSlot as e, renderUniqueStylesheet as f, renderScriptElement as g, createHeadAndContent as h, renderScript as i, renderHead as j, renderJSX as k, createVNode as l, maybeRenderHead as m, AstroJSX as n, AstroUserError as o, decodeKey as p, UnsupportedImageFormat as q, renderComponent as r, spreadAttributes as s, UnsupportedImageConversion as t, unescapeHTML as u, toStyleString as v, NoImageMetadata as w, FailedToFetchRemoteImageDimensions as x, ExpectedImageOptions as y, ExpectedNotESMImage as z };
+export { AstroError as A, ExpectedNotESMImage as B, InvalidImageService as C, ImageMissingAlt as D, ExpectedImage as E, Fragment as F, ExperimentalFontsNotEnabled as G, FontFamilyNotFound as H, IncompatibleDescriptorOptions as I, MissingSharp as J, LocalImageUsedWrongly as L, MissingImageDimension as M, NOOP_MIDDLEWARE_HEADER as N, RenderUndefinedEntryError as R, UnknownContentCollectionError as U, renderTemplate as a, createAstro as b, createComponent as c, addAttribute as d, renderSlot as e, renderUniqueStylesheet as f, renderScriptElement as g, createHeadAndContent as h, renderScript as i, renderHead as j, renderJSX as k, createVNode as l, maybeRenderHead as m, AstroJSX as n, AstroUserError as o, decodeKey as p, UnsupportedImageFormat as q, renderComponent as r, spreadAttributes as s, UnsupportedImageConversion as t, unescapeHTML as u, toStyleString as v, NoImageMetadata as w, FailedToFetchRemoteImageDimensions as x, RemoteImageNotAllowed as y, ExpectedImageOptions as z };
