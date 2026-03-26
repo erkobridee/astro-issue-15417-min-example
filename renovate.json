@@ -3,5 +3,13 @@
   "extends": [
     "config:recommended"
   ],
-  "npmrc": "legacy-peer-deps=true"
+  "packageRules": [
+    {
+      "matchPackageNames": [
+        "vite",
+        "typescript"
+      ],
+      "enabled": false
+    }
+  ]
 }
