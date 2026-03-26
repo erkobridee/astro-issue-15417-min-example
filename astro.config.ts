@@ -6,6 +6,7 @@ import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 
 // https://tailwindcss.com/docs/installation/framework-guides/astro
+// https://github.com/withastro/astro/issues/14030
 import tailwindcss from '@tailwindcss/vite';
 
 //----------------------------------------------------------------------------//

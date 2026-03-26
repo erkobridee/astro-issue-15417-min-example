@@ -47,10 +47,11 @@ export const samplesLoader = (): Loader => {
 
     load,
 
-    schema: () => {
+    // https://docs.astro.build/en/reference/content-loader-reference/#loadercreateschema
+    createSchema: () => {
       throw new Error(
         'This default schema should not be used. Please specify your own when using `samplesLoader`.'
       );
     }
-  };
+  } satisfies Loader;
 };
