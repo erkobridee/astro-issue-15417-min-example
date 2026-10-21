@@ -3,6 +3,9 @@ dist/
 # generated types
 .astro/
 
+# remote images cache
+src/image-cache
+
 # dependencies
 node_modules/
 
