@@ -2,7 +2,8 @@ import type { Loader, LoaderContext } from 'astro/loaders';
 
 import { samples } from '~/content/mock/samples';
 
-import { resolveAstroImageMarkers } from '~/utils/resolve-astro-image-markers';
+import { replaceRemoteImages } from '~/utils/markdown/replaceRemoteImages';
+import { downloadImage } from '~/utils/downloadImage';
 
 //----------------------------------------------------------------------------//
 
@@ -22,18 +23,25 @@ export const samplesLoader = (): Loader => {
 
       const digest = generateDigest(data);
 
-      const rendered = await renderMarkdown(content);
+      //const rawMarkdown = content;
+      const rawMarkdown = await replaceRemoteImages(
+        content,
+        async (remoteUrl) => await downloadImage(remoteUrl)
+      );
 
-      const html = await resolveAstroImageMarkers(rendered.html);
+      const filePath = `src/content/mock/posts/${id}.md`;
+
+      const rendered = await renderMarkdown(rawMarkdown, {
+        fileURL: new URL(filePath, import.meta.url)
+      });
 
       store.set({
         id,
         digest,
         data,
-        rendered: {
-          ...rendered,
-          html
-        }
+        rendered,
+        filePath,
+        assetImports: rendered.metadata?.imagePaths // register assets
       });
     }
   };
