@@ -24,8 +24,10 @@ const isGitHubPagesPreview = !!process.env.GITHUB_PAGES_PREVIEW;
 //----------------------------------------------------------------------------//
 
 const baseConfig: AstroUserConfig = {
+  // https://docs.astro.build/en/guides/images/#authorizing-remote-images
   image: {
-    domains: ['images.unsplash.com', 'images.pexels.com']
+    //domains: ['images.unsplash.com', 'images.pexels.com']
+    remotePatterns: [{ protocol: 'https' }]
   },
 
   markdown: {

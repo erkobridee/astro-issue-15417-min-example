@@ -2,6 +2,9 @@ import type { Loader, LoaderContext } from 'astro/loaders';
 
 import { samples } from '~/content/mock/samples';
 
+import { replaceRemoteImages } from '~/utils/markdown/replaceRemoteImages';
+import { downloadImage } from '~/utils/downloadImage';
+
 //----------------------------------------------------------------------------//
 
 export const samplesLoader = (): Loader => {
@@ -11,6 +14,8 @@ export const samplesLoader = (): Loader => {
     parseData,
     renderMarkdown
   }: LoaderContext) => {
+    store.clear();
+
     for (const sample of samples) {
       const { slug: id, content } = sample;
 
@@ -18,9 +23,25 @@ export const samplesLoader = (): Loader => {
 
       const digest = generateDigest(data);
 
-      const rendered = await renderMarkdown(content);
+      const rawMarkdown = await replaceRemoteImages(
+        content,
+        async (remoteUrl) => await downloadImage(remoteUrl)
+      );
 
-      store.set({ id, digest, data, rendered });
+      const filePath = `src/content/mock/posts/${id}.md`;
+
+      const rendered = await renderMarkdown(rawMarkdown, {
+        fileURL: new URL(filePath, import.meta.url)
+      });
+
+      store.set({
+        id,
+        digest,
+        data,
+        rendered,
+        filePath,
+        assetImports: rendered.metadata?.imagePaths // register assets
+      });
     }
   };
 
