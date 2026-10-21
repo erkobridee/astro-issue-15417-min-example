@@ -4,7 +4,7 @@
 
   - related to [[GitHub] erkobridee/strapicms-astro-client](https://github.com/erkobridee/strapicms-astro-client)
 
-  - Fixed by PR #199
+  - Fixed by PR [#199](https://github.com/erkobridee/astro-issue-15417-min-example/pull/199)
 
 ## Local Development
 
