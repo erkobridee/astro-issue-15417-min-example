@@ -31,3 +31,15 @@ Following a Linux/Unix OS approach, we have the following alias mapping `~/* -> 
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/erkobridee/astro-issue-15417-min-example)
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/erkobridee/astro-issue-15417-min-example?devcontainer_path=.devcontainer/devcontainer.json)
+
+## Useful references
+
+- [Markdown in Astro | Guides - Astro Docs](https://docs.astro.build/en/guides/markdown-content/)
+
+- [Images | Guides - Astro Docs](https://docs.astro.build/en/guides/images/)
+
+- [getImage - Image and Assets API Reference | Astro Docs](https://docs.astro.build/en/reference/modules/astro-assets/#getimage)
+
+- [Optimizing Markdown Images With Astro | wolfgirl.dev](https://wolfgirl.dev/blog/2025-02-12-optimizing-markdown-images-with-astro/)
+
+- [Astro v7 markdown is not rendering external image + <img __ASTRO_IMAGE_ | Perplexity.ai](https://www.perplexity.ai/search/680c5f2e-13e8-443c-8b49-862bece0f6ad)
