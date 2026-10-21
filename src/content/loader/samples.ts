@@ -2,6 +2,8 @@ import type { Loader, LoaderContext } from 'astro/loaders';
 
 import { samples } from '~/content/mock/samples';
 
+import { resolveAstroImageMarkers } from '~/utils/resolve-astro-image-markers';
+
 //----------------------------------------------------------------------------//
 
 export const samplesLoader = (): Loader => {
@@ -11,6 +13,8 @@ export const samplesLoader = (): Loader => {
     parseData,
     renderMarkdown
   }: LoaderContext) => {
+    store.clear();
+
     for (const sample of samples) {
       const { slug: id, content } = sample;
 
@@ -20,7 +24,17 @@ export const samplesLoader = (): Loader => {
 
       const rendered = await renderMarkdown(content);
 
-      store.set({ id, digest, data, rendered });
+      const html = await resolveAstroImageMarkers(rendered.html);
+
+      store.set({
+        id,
+        digest,
+        data,
+        rendered: {
+          ...rendered,
+          html
+        }
+      });
     }
   };
 
