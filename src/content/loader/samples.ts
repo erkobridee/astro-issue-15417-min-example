@@ -23,7 +23,6 @@ export const samplesLoader = (): Loader => {
 
       const digest = generateDigest(data);
 
-      //const rawMarkdown = content;
       const rawMarkdown = await replaceRemoteImages(
         content,
         async (remoteUrl) => await downloadImage(remoteUrl)
