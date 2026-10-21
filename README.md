@@ -1,7 +1,10 @@
-# Astro issue #15417 minimal example
+# [FIXED] Astro issue #15417 minimal example
 
 - [Missing support for remote image configuration at the content-layer · Issue #15417 · withastro/astro](https://github.com/withastro/astro/issues/15417)
+
   - related to [[GitHub] erkobridee/strapicms-astro-client](https://github.com/erkobridee/strapicms-astro-client)
+
+  - Fixed by PR #199
 
 ## Local Development
 
