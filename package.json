@@ -19,11 +19,11 @@
     "gh-pages-preview": "cross-env GITHUB_PAGES=true GITHUB_PAGES_PREVIEW=true npm run preview"
   },
   "dependencies": {
-    "astro": "6.4.8"
+    "astro": "7.4.0"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.11",
-    "@astrojs/mdx": "6.0.3",
+    "@astrojs/mdx": "8.1.0",
     "@astrojs/ts-plugin": "1.10.12",
     "@eslint/js": "10.0.1",
     "@tailwindcss/forms": "0.5.11",
@@ -48,7 +48,7 @@
     "simple-git-hooks": "2.14.0",
     "tailwind-merge": "3.7.0",
     "tailwindcss": "4.3.3",
-    "typescript": "5.9.3"
+    "typescript": "6.0.3"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx,md,mdx,astro}": "prettier --write",
@@ -57,8 +57,5 @@
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"
   },
-  "github_pages": "https://erkobridee.github.io",
-  "overrides": {
-    "vite": "7.3.1"
-  }
+  "github_pages": "https://erkobridee.github.io"
 }
