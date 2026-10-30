@@ -20,7 +20,7 @@
     "gh-pages-preview": "cross-env GITHUB_PAGES=true GITHUB_PAGES_PREVIEW=true pnpm run preview"
   },
   "dependencies": {
-    "astro": "7.4.3"
+    "astro": "7.4.4"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.12",
